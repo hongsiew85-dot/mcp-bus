@@ -1,0 +1,560 @@
+import { BusStop, RouteDetail, TransitInterchange, ServiceAlert } from '../types/transit';
+
+export const INITIAL_BUS_STOPS: BusStop[] = [
+  {
+    id: 'B01112',
+    code: '01112',
+    name: 'Opp Orchard Stn/ION',
+    road: 'Orchard Turn',
+    nearbyMrt: 'NS22 / TE14 Orchard',
+    coordinates: { lat: 1.3041, lng: 103.8322 },
+    services: [
+      {
+        serviceNo: '147',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Jurong East Int',
+        nextBus: { etaMinutes: 0, load: 'SDA', type: 'DD', wab: true, estimatedDistanceKm: 0.2 },
+        nextBus2: { etaMinutes: 6, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 2.1 },
+        nextBus3: { etaMinutes: 14, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 4.8 },
+      },
+      {
+        serviceNo: '65',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'HarbourFront Int',
+        nextBus: { etaMinutes: 3, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 1.1 },
+        nextBus2: { etaMinutes: 11, load: 'LSD', type: 'DD', wab: true, estimatedDistanceKm: 3.9 },
+        nextBus3: { etaMinutes: 19, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 6.5 },
+      },
+      {
+        serviceNo: '190',
+        category: 'Trunk',
+        operator: 'SMRT',
+        destinationName: 'Chua Chu Kang Int',
+        nextBus: { etaMinutes: 1, load: 'LSD', type: 'BD', wab: true, estimatedDistanceKm: 0.4 },
+        nextBus2: { etaMinutes: 8, load: 'SDA', type: 'DD', wab: true, estimatedDistanceKm: 2.9 },
+        nextBus3: { etaMinutes: 17, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 5.7 },
+      },
+      {
+        serviceNo: '7',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Clementi Int',
+        nextBus: { etaMinutes: 4, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 1.5 },
+        nextBus2: { etaMinutes: 12, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 4.2 },
+        nextBus3: { etaMinutes: 21, load: 'SDA', type: 'SD', wab: true, estimatedDistanceKm: 7.3 },
+      },
+      {
+        serviceNo: '502',
+        category: 'Express',
+        operator: 'SBS Transit',
+        destinationName: 'Soon Lee Bus Park',
+        nextBus: { etaMinutes: 9, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 3.2 },
+        nextBus2: { etaMinutes: 24, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 8.6 },
+      },
+    ],
+  },
+  {
+    id: 'B08057',
+    code: '08057',
+    name: 'Dhoby Ghaut Stn Exit B',
+    road: 'Orchard Rd',
+    nearbyMrt: 'NS24 / NE6 / CC1 Dhoby Ghaut',
+    coordinates: { lat: 1.2995, lng: 103.8458 },
+    services: [
+      {
+        serviceNo: '65',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Tampines Int',
+        nextBus: { etaMinutes: 2, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 0.8 },
+        nextBus2: { etaMinutes: 9, load: 'SDA', type: 'DD', wab: true, estimatedDistanceKm: 3.1 },
+        nextBus3: { etaMinutes: 18, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 6.0 },
+      },
+      {
+        serviceNo: '7',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Bedok Int',
+        nextBus: { etaMinutes: 0, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 0.1 },
+        nextBus2: { etaMinutes: 7, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 2.4 },
+        nextBus3: { etaMinutes: 16, load: 'SDA', type: 'SD', wab: true, estimatedDistanceKm: 5.5 },
+      },
+      {
+        serviceNo: '147',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Hougang Central Int',
+        nextBus: { etaMinutes: 5, load: 'SDA', type: 'DD', wab: true, estimatedDistanceKm: 1.9 },
+        nextBus2: { etaMinutes: 13, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 4.6 },
+        nextBus3: { etaMinutes: 22, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 7.8 },
+      },
+      {
+        serviceNo: '166',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Ang Mo Kio Int',
+        nextBus: { etaMinutes: 6, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 2.2 },
+        nextBus2: { etaMinutes: 15, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 5.3 },
+      },
+    ],
+  },
+  {
+    id: 'B01019',
+    code: '01019',
+    name: 'Opp Bugis Stn Exit C',
+    road: 'Victoria St',
+    nearbyMrt: 'EW12 / DT14 Bugis',
+    coordinates: { lat: 1.3006, lng: 103.8561 },
+    services: [
+      {
+        serviceNo: '12',
+        category: 'Trunk',
+        operator: 'Go-Ahead',
+        destinationName: 'Pasir Ris Int',
+        nextBus: { etaMinutes: 1, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 0.5 },
+        nextBus2: { etaMinutes: 8, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 2.8 },
+        nextBus3: { etaMinutes: 19, load: 'SDA', type: 'SD', wab: true, estimatedDistanceKm: 6.4 },
+      },
+      {
+        serviceNo: '190',
+        category: 'Trunk',
+        operator: 'SMRT',
+        destinationName: 'New Bridge Rd Ter',
+        nextBus: { etaMinutes: 3, load: 'SDA', type: 'BD', wab: true, estimatedDistanceKm: 1.2 },
+        nextBus2: { etaMinutes: 10, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 3.5 },
+      },
+      {
+        serviceNo: '851',
+        category: 'Trunk',
+        operator: 'SMRT',
+        destinationName: 'Bukit Merah Int',
+        nextBus: { etaMinutes: 0, load: 'LSD', type: 'DD', wab: true, estimatedDistanceKm: 0.1 },
+        nextBus2: { etaMinutes: 12, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 4.1 },
+      },
+      {
+        serviceNo: '65',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'HarbourFront Int',
+        nextBus: { etaMinutes: 5, load: 'SDA', type: 'DD', wab: true, estimatedDistanceKm: 1.8 },
+        nextBus2: { etaMinutes: 14, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 4.9 },
+      },
+    ],
+  },
+  {
+    id: 'B28009',
+    code: '28009',
+    name: 'Jurong East Bus Interchange',
+    road: 'Jurong Gateway Rd',
+    nearbyMrt: 'NS1 / EW24 Jurong East',
+    coordinates: { lat: 1.3331, lng: 103.7423 },
+    isInterchange: true,
+    services: [
+      {
+        serviceNo: '147',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Hougang Central Int',
+        nextBus: { etaMinutes: 2, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 0.5 },
+        nextBus2: { etaMinutes: 10, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 3.4 },
+        nextBus3: { etaMinutes: 18, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 6.2 },
+      },
+      {
+        serviceNo: '66',
+        category: 'Trunk',
+        operator: 'Tower Transit',
+        destinationName: 'Bedok Int',
+        nextBus: { etaMinutes: 4, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 1.3 },
+        nextBus2: { etaMinutes: 14, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 4.8 },
+      },
+      {
+        serviceNo: '334',
+        category: 'Feeder',
+        operator: 'Tower Transit',
+        destinationName: 'Jurong West St 42 (Loop)',
+        nextBus: { etaMinutes: 0, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 0.1 },
+        nextBus2: { etaMinutes: 5, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 1.6 },
+        nextBus3: { etaMinutes: 12, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 3.9 },
+      },
+      {
+        serviceNo: '502',
+        category: 'Express',
+        operator: 'SBS Transit',
+        destinationName: 'Marina Station Rd (Bayfront)',
+        nextBus: { etaMinutes: 7, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 2.5 },
+        nextBus2: { etaMinutes: 22, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 7.9 },
+      },
+    ],
+  },
+  {
+    id: 'B04111',
+    code: '04111',
+    name: 'Chinatown Stn Exit E',
+    road: 'Eu Tong Sen St',
+    nearbyMrt: 'NE4 / DT19 Chinatown',
+    coordinates: { lat: 1.2842, lng: 103.8441 },
+    services: [
+      {
+        serviceNo: '147',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Jurong East Int',
+        nextBus: { etaMinutes: 1, load: 'SDA', type: 'DD', wab: true, estimatedDistanceKm: 0.3 },
+        nextBus2: { etaMinutes: 8, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 2.7 },
+        nextBus3: { etaMinutes: 16, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 5.4 },
+      },
+      {
+        serviceNo: '190',
+        category: 'Trunk',
+        operator: 'SMRT',
+        destinationName: 'Chua Chu Kang Int',
+        nextBus: { etaMinutes: 4, load: 'LSD', type: 'BD', wab: true, estimatedDistanceKm: 1.4 },
+        nextBus2: { etaMinutes: 11, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 3.8 },
+      },
+      {
+        serviceNo: '851',
+        category: 'Trunk',
+        operator: 'SMRT',
+        destinationName: 'Yishun Int',
+        nextBus: { etaMinutes: 6, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 2.1 },
+        nextBus2: { etaMinutes: 15, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 5.0 },
+      },
+    ],
+  },
+  {
+    id: 'B75009',
+    code: '75009',
+    name: 'Tampines Bus Interchange',
+    road: 'Tampines Ave 4',
+    nearbyMrt: 'EW2 / DT32 Tampines',
+    coordinates: { lat: 1.3533, lng: 103.9452 },
+    isInterchange: true,
+    services: [
+      {
+        serviceNo: '65',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'HarbourFront Int',
+        nextBus: { etaMinutes: 1, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 0.2 },
+        nextBus2: { etaMinutes: 8, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 2.6 },
+        nextBus3: { etaMinutes: 17, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 5.8 },
+      },
+      {
+        serviceNo: '10',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Kent Ridge Ter',
+        nextBus: { etaMinutes: 3, load: 'SDA', type: 'DD', wab: true, estimatedDistanceKm: 1.0 },
+        nextBus2: { etaMinutes: 12, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 4.1 },
+      },
+    ],
+  },
+  {
+    id: 'B54009',
+    code: '54009',
+    name: 'Bishan Bus Interchange',
+    road: 'Bishan Pl',
+    nearbyMrt: 'NS17 / CC15 Bishan',
+    coordinates: { lat: 1.3506, lng: 103.8497 },
+    isInterchange: true,
+    services: [
+      {
+        serviceNo: '166',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Clementi Int',
+        nextBus: { etaMinutes: 2, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 0.6 },
+        nextBus2: { etaMinutes: 9, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 3.0 },
+      },
+      {
+        serviceNo: '147',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Jurong East Int',
+        nextBus: { etaMinutes: 5, load: 'SDA', type: 'DD', wab: true, estimatedDistanceKm: 1.7 },
+        nextBus2: { etaMinutes: 13, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 4.5 },
+      },
+    ],
+  },
+  {
+    id: 'B14089',
+    code: '14089',
+    name: 'Opp HarbourFront Stn',
+    road: 'Telok Blangah Rd',
+    nearbyMrt: 'NE1 / CC29 HarbourFront',
+    coordinates: { lat: 1.2652, lng: 103.8228 },
+    services: [
+      {
+        serviceNo: '65',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Tampines Int',
+        nextBus: { etaMinutes: 0, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 0.1 },
+        nextBus2: { etaMinutes: 7, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 2.3 },
+        nextBus3: { etaMinutes: 16, load: 'SDA', type: 'DD', wab: true, estimatedDistanceKm: 5.1 },
+      },
+      {
+        serviceNo: '10',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Tampines Int',
+        nextBus: { etaMinutes: 4, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 1.4 },
+        nextBus2: { etaMinutes: 13, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 4.3 },
+      },
+    ],
+  },
+];
+
+export const ROUTE_CATALOG: Record<string, RouteDetail> = {
+  '147': {
+    serviceNo: '147',
+    operator: 'SBS Transit',
+    category: 'Trunk',
+    origin: 'Hougang Central Int',
+    destination: 'Jurong East Int',
+    operatingHours: '05:30 - 23:45',
+    frequencyRange: '6 - 11 mins',
+    direction1: {
+      origin: 'Hougang Central Int',
+      destination: 'Jurong East Int',
+      stops: [
+        { stopCode: '64009', stopName: 'Hougang Central Int', roadName: 'Hougang Ctrl', fareStage: 1, cumulativeKm: 0.0, hasActiveBus: true, activeBusDetails: { plateNumber: 'SBS3890G', load: 'SEA', type: 'DD', speedKmH: 0 } },
+        { stopCode: '64389', stopName: 'Opp Hougang Plaza', roadName: 'Upper Serangoon Rd', fareStage: 2, cumulativeKm: 1.1 },
+        { stopCode: '63089', stopName: 'Kovan Stn Exit C', roadName: 'Upper Serangoon Rd', fareStage: 4, cumulativeKm: 2.6 },
+        { stopCode: '66019', stopName: 'Serangoon Stn Exit B', roadName: 'Serangoon Ctrl', fareStage: 7, cumulativeKm: 5.2 },
+        { stopCode: '60111', stopName: 'Potong Pasir Stn Exit B', roadName: 'Upper Serangoon Rd', fareStage: 9, cumulativeKm: 7.4, hasActiveBus: true, activeBusDetails: { plateNumber: 'SBS3128T', load: 'SDA', type: 'DD', speedKmH: 38 } },
+        { stopCode: '08057', stopName: 'Dhoby Ghaut Stn Exit B', roadName: 'Orchard Rd', fareStage: 13, cumulativeKm: 11.2 },
+        { stopCode: '01112', stopName: 'Opp Orchard Stn/ION', roadName: 'Orchard Turn', fareStage: 15, cumulativeKm: 13.0, hasActiveBus: true, activeBusDetails: { plateNumber: 'SBS3445M', load: 'SDA', type: 'DD', speedKmH: 24 } },
+        { stopCode: '04111', stopName: 'Chinatown Stn Exit E', roadName: 'Eu Tong Sen St', fareStage: 18, cumulativeKm: 15.6 },
+        { stopCode: '10041', stopName: 'Outram Park Stn Exit H', roadName: 'New Bridge Rd', fareStage: 19, cumulativeKm: 16.5 },
+        { stopCode: '11169', stopName: 'Queenstown Stn Exit B', roadName: 'Commonwealth Ave', fareStage: 23, cumulativeKm: 20.1 },
+        { stopCode: '17179', stopName: 'Clementi Stn Exit B', roadName: 'Commonwealth Ave West', fareStage: 28, cumulativeKm: 25.4, hasActiveBus: true, activeBusDetails: { plateNumber: 'SBS3771P', load: 'SEA', type: 'DD', speedKmH: 45 } },
+        { stopCode: '28009', stopName: 'Jurong East Int', roadName: 'Jurong Gateway Rd', fareStage: 32, cumulativeKm: 29.8 },
+      ],
+    },
+    direction2: {
+      origin: 'Jurong East Int',
+      destination: 'Hougang Central Int',
+      stops: [
+        { stopCode: '28009', stopName: 'Jurong East Int', roadName: 'Jurong Gateway Rd', fareStage: 1, cumulativeKm: 0.0, hasActiveBus: true, activeBusDetails: { plateNumber: 'SBS3911L', load: 'SEA', type: 'DD', speedKmH: 0 } },
+        { stopCode: '17171', stopName: 'Clementi Stn Exit A', roadName: 'Commonwealth Ave West', fareStage: 5, cumulativeKm: 4.4 },
+        { stopCode: '11161', stopName: 'Queenstown Stn Exit A', roadName: 'Commonwealth Ave', fareStage: 10, cumulativeKm: 9.7 },
+        { stopCode: '04121', stopName: 'People Park Ctr', roadName: 'Eu Tong Sen St', fareStage: 15, cumulativeKm: 14.2 },
+        { stopCode: '08057', stopName: 'Dhoby Ghaut Stn Exit B', roadName: 'Orchard Rd', fareStage: 18, cumulativeKm: 17.0, hasActiveBus: true, activeBusDetails: { plateNumber: 'SBS3660Y', load: 'SDA', type: 'DD', speedKmH: 31 } },
+        { stopCode: '64009', stopName: 'Hougang Central Int', roadName: 'Hougang Ctrl', fareStage: 32, cumulativeKm: 29.8 },
+      ],
+    },
+  },
+  '65': {
+    serviceNo: '65',
+    operator: 'SBS Transit',
+    category: 'Trunk',
+    origin: 'Tampines Int',
+    destination: 'HarbourFront Int',
+    operatingHours: '05:40 - 23:45',
+    frequencyRange: '7 - 12 mins',
+    direction1: {
+      origin: 'Tampines Int',
+      destination: 'HarbourFront Int',
+      stops: [
+        { stopCode: '75009', stopName: 'Tampines Int', roadName: 'Tampines Ave 4', fareStage: 1, cumulativeKm: 0.0, hasActiveBus: true, activeBusDetails: { plateNumber: 'SBS6800U', load: 'SEA', type: 'DD', speedKmH: 0 } },
+        { stopCode: '76199', stopName: 'Bedok Reservoir Stn', roadName: 'Bedok Reservoir Rd', fareStage: 5, cumulativeKm: 4.1 },
+        { stopCode: '71079', stopName: 'Ubi Stn Exit B', roadName: 'Ubi Ave 2', fareStage: 9, cumulativeKm: 7.8, hasActiveBus: true, activeBusDetails: { plateNumber: 'SBS3802K', load: 'SEA', type: 'DD', speedKmH: 42 } },
+        { stopCode: '60111', stopName: 'Potong Pasir Stn Exit B', roadName: 'Upper Serangoon Rd', fareStage: 13, cumulativeKm: 11.0 },
+        { stopCode: '08057', stopName: 'Dhoby Ghaut Stn Exit B', roadName: 'Orchard Rd', fareStage: 17, cumulativeKm: 15.2 },
+        { stopCode: '01112', stopName: 'Opp Orchard Stn/ION', roadName: 'Orchard Turn', fareStage: 19, cumulativeKm: 17.1, hasActiveBus: true, activeBusDetails: { plateNumber: 'SBS3201E', load: 'SDA', type: 'DD', speedKmH: 22 } },
+        { stopCode: '10169', stopName: 'Tiong Bahru Stn', roadName: 'Tiong Bahru Rd', fareStage: 23, cumulativeKm: 20.8 },
+        { stopCode: '14089', stopName: 'Opp HarbourFront Stn', roadName: 'Telok Blangah Rd', fareStage: 27, cumulativeKm: 24.5 },
+      ],
+    },
+  },
+  '190': {
+    serviceNo: '190',
+    operator: 'SMRT',
+    category: 'Trunk',
+    origin: 'Chua Chu Kang Int',
+    destination: 'New Bridge Rd Ter',
+    operatingHours: '05:30 - 23:55',
+    frequencyRange: '5 - 9 mins',
+    direction1: {
+      origin: 'Chua Chu Kang Int',
+      destination: 'New Bridge Rd Ter',
+      stops: [
+        { stopCode: '44009', stopName: 'Chua Chu Kang Int', roadName: 'Chua Chu Kang Loop', fareStage: 1, cumulativeKm: 0.0, hasActiveBus: true, activeBusDetails: { plateNumber: 'SMB5001A', load: 'SEA', type: 'BD', speedKmH: 0 } },
+        { stopCode: '43119', stopName: 'Bukit Panjang Stn', roadName: 'Upper Bukit Timah Rd', fareStage: 6, cumulativeKm: 4.8 },
+        { stopCode: '40019', stopName: 'Whitley Rd (PIE flyover)', roadName: 'Whitley Rd', fareStage: 14, cumulativeKm: 13.2, hasActiveBus: true, activeBusDetails: { plateNumber: 'SMB3888H', load: 'LSD', type: 'BD', speedKmH: 60 } },
+        { stopCode: '01112', stopName: 'Opp Orchard Stn/ION', roadName: 'Orchard Turn', fareStage: 18, cumulativeKm: 17.0, hasActiveBus: true, activeBusDetails: { plateNumber: 'SMB1201D', load: 'SDA', type: 'DD', speedKmH: 26 } },
+        { stopCode: '04111', stopName: 'Chinatown Stn Exit E', roadName: 'Eu Tong Sen St', fareStage: 22, cumulativeKm: 20.5 },
+        { stopCode: '05019', stopName: 'New Bridge Rd Ter', roadName: 'New Bridge Rd', fareStage: 24, cumulativeKm: 22.1 },
+      ],
+    },
+  },
+  '7': {
+    serviceNo: '7',
+    operator: 'SBS Transit',
+    category: 'Trunk',
+    origin: 'Bedok Int',
+    destination: 'Clementi Int',
+    operatingHours: '05:45 - 23:30',
+    frequencyRange: '7 - 12 mins',
+    direction1: {
+      origin: 'Bedok Int',
+      destination: 'Clementi Int',
+      stops: [
+        { stopCode: '84009', stopName: 'Bedok Int', roadName: 'Bedok North Ave 1', fareStage: 1, cumulativeKm: 0.0, hasActiveBus: true, activeBusDetails: { plateNumber: 'SBS3502C', load: 'SEA', type: 'DD', speedKmH: 0 } },
+        { stopCode: '82049', stopName: 'Eunos Stn', roadName: 'Sims Ave', fareStage: 5, cumulativeKm: 3.9 },
+        { stopCode: '80019', stopName: 'Kallang Stn', roadName: 'Sims Ave', fareStage: 9, cumulativeKm: 7.5 },
+        { stopCode: '08057', stopName: 'Dhoby Ghaut Stn Exit B', roadName: 'Orchard Rd', fareStage: 14, cumulativeKm: 11.8, hasActiveBus: true, activeBusDetails: { plateNumber: 'SBS3790T', load: 'SEA', type: 'DD', speedKmH: 30 } },
+        { stopCode: '01112', stopName: 'Opp Orchard Stn/ION', roadName: 'Orchard Turn', fareStage: 16, cumulativeKm: 13.6 },
+        { stopCode: '17179', stopName: 'Clementi Stn Exit B', roadName: 'Commonwealth Ave West', fareStage: 26, cumulativeKm: 23.4 },
+      ],
+    },
+  },
+  '502': {
+    serviceNo: '502',
+    operator: 'SBS Transit',
+    category: 'Express',
+    origin: 'Soon Lee Bus Park',
+    destination: 'Marina Station Rd (Bayfront)',
+    operatingHours: '06:00 - 23:00',
+    frequencyRange: '12 - 18 mins',
+    direction1: {
+      origin: 'Soon Lee Bus Park',
+      destination: 'Marina Station Rd (Bayfront)',
+      stops: [
+        { stopCode: '22199', stopName: 'Soon Lee Bus Park', roadName: 'Soon Lee Rd', fareStage: 1, cumulativeKm: 0.0, hasActiveBus: true, activeBusDetails: { plateNumber: 'SBS2833S', load: 'SEA', type: 'SD', speedKmH: 0 } },
+        { stopCode: '28009', stopName: 'Jurong East Int', roadName: 'Jurong Gateway Rd', fareStage: 6, cumulativeKm: 5.2 },
+        { stopCode: '01112', stopName: 'Opp Orchard Stn/ION', roadName: 'Orchard Turn', fareStage: 16, cumulativeKm: 18.5, hasActiveBus: true, activeBusDetails: { plateNumber: 'SBS2900A', load: 'SEA', type: 'SD', speedKmH: 48 } },
+        { stopCode: '10011', stopName: 'Marina Bay Sands Theatre', roadName: 'Bayfront Ave', fareStage: 20, cumulativeKm: 22.4 },
+      ],
+    },
+  },
+};
+
+export const TRANSIT_INTERCHANGES: TransitInterchange[] = [
+  {
+    id: 'JE-INT',
+    name: 'Jurong East Bus Interchange',
+    mrtLines: [
+      { code: 'NS1', name: 'North South Line', color: '#D42E12' },
+      { code: 'EW24', name: 'East West Line', color: '#009530' },
+    ],
+    address: 'Jurong Gateway Road (Connected to Westgate & JEM)',
+    berths: [
+      { berthNumber: 'Berth 1', services: ['147', '197'], destinationSummary: 'Hougang Ctrl / Bedok via Clementi & Chinatown', wheelchairFriendly: true },
+      { berthNumber: 'Berth 2', services: ['66', '335'], destinationSummary: 'Bedok via Bukit Batok & Dunearn / Jurong West', wheelchairFriendly: true },
+      { berthNumber: 'Berth 3', services: ['502', '502A'], destinationSummary: 'Bayfront / Marina Bay (Express via AYE)', wheelchairFriendly: true },
+      { berthNumber: 'Berth 4', services: ['334', '333'], destinationSummary: 'Jurong West St 42 Loop / Boon Lay Way Feeder', wheelchairFriendly: true },
+      { berthNumber: 'Berth 5', services: ['97', '97e', '198'], destinationSummary: 'Marina Centre / Bukit Merah via Ayer Rajah', wheelchairFriendly: true },
+    ],
+  },
+  {
+    id: 'TP-INT',
+    name: 'Tampines Bus Interchange',
+    mrtLines: [
+      { code: 'EW2', name: 'East West Line', color: '#009530' },
+      { code: 'DT32', name: 'Downtown Line', color: '#005EC4' },
+    ],
+    address: 'Tampines Central 1 (Connected to Tampines Mall & Century Square)',
+    berths: [
+      { berthNumber: 'Berth 1', services: ['65', '67'], destinationSummary: 'HarbourFront / Choa Chu Kang via Bedok Reservoir', wheelchairFriendly: true },
+      { berthNumber: 'Berth 2', services: ['10', '31'], destinationSummary: 'Kent Ridge / Toa Payoh via Tanjong Katong', wheelchairFriendly: true },
+      { berthNumber: 'Berth 3', services: ['23', '38'], destinationSummary: 'Rochor / Bedok via Bedok South', wheelchairFriendly: true },
+      { berthNumber: 'Berth 4', services: ['291', '293'], destinationSummary: 'Tampines St 81 & St 21 Feeder Town Loops', wheelchairFriendly: true },
+    ],
+  },
+  {
+    id: 'BS-INT',
+    name: 'Bishan Bus Interchange',
+    mrtLines: [
+      { code: 'NS17', name: 'North South Line', color: '#D42E12' },
+      { code: 'CC15', name: 'Circle Line', color: '#FA9E0D' },
+    ],
+    address: 'Bishan Place (Connected to Junction 8)',
+    berths: [
+      { berthNumber: 'Berth 1', services: ['166'], destinationSummary: 'Clementi Int via Upper Thomson & Telok Blangah', wheelchairFriendly: true },
+      { berthNumber: 'Berth 2', services: ['147'], destinationSummary: 'Jurong East Int via Serangoon & Chinatown', wheelchairFriendly: true },
+      { berthNumber: 'Berth 3', services: ['410G', '410W'], destinationSummary: 'Shunfu / Sin Ming Ave Feeder Clockwise/Anti-clockwise', wheelchairFriendly: true },
+      { berthNumber: 'Berth 4', services: ['52', '53'], destinationSummary: 'Jurong East / Changi Airport PTB', wheelchairFriendly: true },
+    ],
+  },
+  {
+    id: 'WL-INT',
+    name: 'Woodlands Integrated Transport Hub',
+    mrtLines: [
+      { code: 'NS9', name: 'North South Line', color: '#D42E12' },
+      { code: 'TE2', name: 'Thomson-East Coast Line', color: '#9D5B25' },
+    ],
+    address: 'Woodlands Square (Connected to Causeway Point)',
+    berths: [
+      { berthNumber: 'Berth 1', services: ['960', '960e'], destinationSummary: 'Marina Centre via BKE & Bukit Panjang', wheelchairFriendly: true },
+      { berthNumber: 'Berth 2', services: ['950'], destinationSummary: 'Johor Bahru CIQ (Cross-border Express)', wheelchairFriendly: true },
+      { berthNumber: 'Berth 3', services: ['965', '969'], destinationSummary: 'Sengkang / Tampines via SLE & TPE Expressway', wheelchairFriendly: true },
+    ],
+  },
+];
+
+export const SERVICE_ALERTS: ServiceAlert[] = [
+  {
+    id: 'ALT-101',
+    category: 'Advisory',
+    severity: 'info',
+    title: 'Rain Advisory: Evening Peak Commute',
+    affectedServices: ['All island-wide'],
+    timestamp: 'Today, 17:30',
+    description: 'Thundery showers expected across Central and Western corridors. Road speeds along PIE and AYE reduced. Commuters are advised to factor additional 5-10 mins travel duration.',
+    status: 'Active',
+  },
+  {
+    id: 'ALT-102',
+    category: 'Diversion',
+    severity: 'medium',
+    title: 'Service 147 & 190 Route Deviation on Eu Tong Sen St',
+    affectedServices: ['147', '190', '851'],
+    affectedLines: ['DTL Chinatown link'],
+    timestamp: 'Today, 14:15',
+    description: 'Due to emergency road resurfacing works near Chinatown Stn Exit E, buses are diverted to New Bridge Rd. Temporary boarding at Opp Hong Lim Complex.',
+    status: 'Active',
+  },
+  {
+    id: 'ALT-103',
+    category: 'Disruption',
+    severity: 'high',
+    title: 'Downtown Line Track Circuit Normalized',
+    affectedServices: ['DTL feeder connectors'],
+    affectedLines: ['Downtown Line (DTL)'],
+    timestamp: 'Today, 11:20',
+    description: 'Earlier signaling fault between Bugis and Promenade has been rectified. Train frequency normal at 2.5 min intervals.',
+    status: 'Resolved',
+  },
+];
+
+// Official LTA Distance-based card fare calculation model
+export function calculateLtaCardFare(distanceKm: number, riderType: 'adult' | 'student' | 'senior'): { fare: number; formatted: string } {
+  let fareCents = 109; // minimum base fare for <= 3.2km
+  if (distanceKm <= 3.2) {
+    fareCents = riderType === 'adult' ? 109 : riderType === 'student' ? 48 : 65;
+  } else if (distanceKm <= 4.2) {
+    fareCents = riderType === 'adult' ? 119 : riderType === 'student' ? 53 : 72;
+  } else if (distanceKm <= 6.2) {
+    fareCents = riderType === 'adult' ? 133 : riderType === 'student' ? 59 : 82;
+  } else if (distanceKm <= 8.2) {
+    fareCents = riderType === 'adult' ? 147 : riderType === 'student' ? 65 : 92;
+  } else if (distanceKm <= 12.2) {
+    fareCents = riderType === 'adult' ? 168 : riderType === 'student' ? 73 : 105;
+  } else if (distanceKm <= 16.2) {
+    fareCents = riderType === 'adult' ? 186 : riderType === 'student' ? 80 : 118;
+  } else if (distanceKm <= 20.2) {
+    fareCents = riderType === 'adult' ? 202 : riderType === 'student' ? 88 : 130;
+  } else if (distanceKm <= 25.2) {
+    fareCents = riderType === 'adult' ? 218 : riderType === 'student' ? 95 : 142;
+  } else {
+    fareCents = riderType === 'adult' ? 237 : riderType === 'student' ? 102 : 155;
+  }
+  return {
+    fare: fareCents / 100,
+    formatted: `$${(fareCents / 100).toFixed(2)}`,
+  };
+}

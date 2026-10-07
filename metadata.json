@@ -1,0 +1,6 @@
+{
+  "name": "Singapore Public Transit Interface",
+  "description": "High-precision Singapore public transit tracking app featuring real-time bus arrival timings, LTA Datamall passenger load indicators, route telemetry, and multimodal interchange navigation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
