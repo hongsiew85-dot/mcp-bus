@@ -1,5 +1,4 @@
-import React from 'react';
-import { RefreshCw, Smartphone, Monitor, Clock } from 'lucide-react';
+import { RefreshCw, Smartphone, Monitor, Clock, Code2 } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: 'stops' | 'routes' | 'interchanges' | 'map' | 'fares' | 'alerts';
@@ -9,6 +8,8 @@ interface HeaderProps {
   isRefreshing: boolean;
   onRefresh: () => void;
   lastUpdatedSecondsAgo: number;
+  onOpenDiagnostics?: () => void;
+  isLtaKeyConfigured?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -19,6 +20,8 @@ export const Header: React.FC<HeaderProps> = ({
   isRefreshing,
   onRefresh,
   lastUpdatedSecondsAgo,
+  onOpenDiagnostics,
+  isLtaKeyConfigured = false,
 }) => {
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-[#E5E5EB] shadow-xs">
@@ -104,6 +107,23 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="w-2 h-2 rounded-full bg-[#00875A] animate-pulse" />
             <span>Updated {lastUpdatedSecondsAgo}s ago</span>
           </div>
+
+          {/* API Health & Diagnostics Button */}
+          {onOpenDiagnostics && (
+            <button
+              onClick={onOpenDiagnostics}
+              className="p-2 sm:px-2.5 sm:py-1.5 rounded-lg border border-[#E5E5EB] bg-white hover:bg-[#FAF9FB] hover:border-[#6E1D74] text-xs font-semibold flex items-center gap-1.5 text-[#50434E] transition-colors"
+              title="Inspect LTA DataMall v3 API & /api/health endpoint"
+            >
+              <Code2
+                size={14}
+                className={isLtaKeyConfigured ? 'text-[#00875A]' : 'text-[#D97706]'}
+              />
+              <span className="hidden sm:inline">
+                {isLtaKeyConfigured ? 'LTA Active' : 'API Health'}
+              </span>
+            </button>
+          )}
 
           {/* Refresh Action */}
           <button

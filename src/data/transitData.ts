@@ -2,6 +2,51 @@ import { BusStop, RouteDetail, TransitInterchange, ServiceAlert } from '../types
 
 export const INITIAL_BUS_STOPS: BusStop[] = [
   {
+    id: 'B04121',
+    code: '04121',
+    name: 'People\'s Park Ctr',
+    road: 'Eu Tong Sen St',
+    nearbyMrt: 'NE4 / DT19 Chinatown',
+    coordinates: { lat: 1.2858, lng: 103.8436 },
+    services: [
+      {
+        serviceNo: '147',
+        category: 'Trunk',
+        operator: 'SBS Transit',
+        destinationName: 'Jurong East Int',
+        nextBus: { etaMinutes: 0, load: 'SDA', type: 'DD', wab: true, estimatedDistanceKm: 0.1 },
+        nextBus2: { etaMinutes: 7, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 2.3 },
+        nextBus3: { etaMinutes: 15, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 5.1 },
+      },
+      {
+        serviceNo: '2',
+        category: 'Trunk',
+        operator: 'Go-Ahead',
+        destinationName: 'Kampong Bahru Ter',
+        nextBus: { etaMinutes: 2, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 0.8 },
+        nextBus2: { etaMinutes: 9, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 3.2 },
+        nextBus3: { etaMinutes: 18, load: 'SDA', type: 'DD', wab: true, estimatedDistanceKm: 6.4 },
+      },
+      {
+        serviceNo: '12',
+        category: 'Trunk',
+        operator: 'Go-Ahead',
+        destinationName: 'Kampong Bahru Ter',
+        nextBus: { etaMinutes: 3, load: 'SDA', type: 'DD', wab: true, estimatedDistanceKm: 1.1 },
+        nextBus2: { etaMinutes: 11, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 3.9 },
+        nextBus3: { etaMinutes: 20, load: 'SEA', type: 'SD', wab: true, estimatedDistanceKm: 6.8 },
+      },
+      {
+        serviceNo: '190',
+        category: 'Trunk',
+        operator: 'SMRT',
+        destinationName: 'New Bridge Rd Ter',
+        nextBus: { etaMinutes: 4, load: 'LSD', type: 'BD', wab: true, estimatedDistanceKm: 1.3 },
+        nextBus2: { etaMinutes: 12, load: 'SEA', type: 'DD', wab: true, estimatedDistanceKm: 4.0 },
+      },
+    ],
+  },
+  {
     id: 'B01112',
     code: '01112',
     name: 'Opp Orchard Stn/ION',

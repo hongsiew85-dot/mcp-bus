@@ -20,6 +20,8 @@ import { FareCalculatorView } from './components/FareCalculatorView';
 import { ServiceAlertsBanner } from './components/ServiceAlertsBanner';
 import { RoutesListView } from './components/RoutesListView';
 import { MobileBottomNav } from './components/MobileBottomNav';
+import { ApiDiagnosticsModal } from './components/ApiDiagnosticsModal';
+import { checkApiHealth, fetchLiveBusArrival } from './services/ltaApi';
 import {
   Search,
   Bookmark,
@@ -64,9 +66,12 @@ export default function App() {
   // Mobile Device Mockup vs Desktop Dashboard mode
   const [isMobileDeviceView, setIsMobileDeviceView] = useState<boolean>(false);
 
-  // Live timer telemetry simulation
+  // Live timer telemetry simulation & API status
   const [lastUpdatedSecondsAgo, setLastUpdatedSecondsAgo] = useState(4);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isDiagnosticsOpen, setIsDiagnosticsOpen] = useState(false);
+  const [isLtaKeyConfigured, setIsLtaKeyConfigured] = useState(false);
+  const [isQueryingLtaApi, setIsQueryingLtaApi] = useState(false);
 
   // Save bookmarks
   useEffect(() => {
@@ -77,12 +82,23 @@ export default function App() {
     }
   }, [bookmarkedStopIds]);
 
+  // Initial API health check
+  useEffect(() => {
+    checkApiHealth()
+      .then((health) => {
+        setIsLtaKeyConfigured(Boolean(health?.ltaIntegration?.accountKeyConfigured));
+      })
+      .catch((err) => {
+        console.warn('API health check error:', err);
+      });
+  }, []);
+
   // Live telemetry timer (seconds elapsed counter + simulated ETA countdown)
   useEffect(() => {
     const timer = setInterval(() => {
       setLastUpdatedSecondsAgo((prev) => {
-        if (prev >= 25) {
-          // Trigger a subtle data step
+        if (prev >= 20) {
+          // Trigger LTA 20-second refresh cycle
           triggerLiveTelemetryUpdate();
           return 0;
         }
@@ -92,28 +108,70 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
-  const triggerLiveTelemetryUpdate = () => {
+  const triggerLiveTelemetryUpdate = async () => {
     setIsRefreshing(true);
-    setTimeout(() => {
-      setBusStops((prevStops) =>
-        prevStops.map((stop) => ({
-          ...stop,
-          services: stop.services.map((svc) => {
-            // Randomly simulate real progression
-            const nextMinutes = svc.nextBus.etaMinutes <= 0 ? 0 : svc.nextBus.etaMinutes;
+    try {
+      // Query LTA API for stop 04121 and other priority stops
+      const ltaArrival = await fetchLiveBusArrival('04121');
+      if (ltaArrival?.services && ltaArrival.services.length > 0) {
+        setBusStops((prevStops) =>
+          prevStops.map((stop) => {
+            if (stop.code === '04121') {
+              return {
+                ...stop,
+                services: ltaArrival.services,
+              };
+            }
             return {
-              ...svc,
-              nextBus: {
-                ...svc.nextBus,
-                etaMinutes: nextMinutes,
-              },
+              ...stop,
+              services: stop.services.map((svc) => {
+                const nextMinutes = svc.nextBus.etaMinutes <= 0 ? 0 : svc.nextBus.etaMinutes;
+                return {
+                  ...svc,
+                  nextBus: {
+                    ...svc.nextBus,
+                    etaMinutes: nextMinutes,
+                  },
+                };
+              }),
             };
-          }),
-        }))
-      );
+          })
+        );
+      }
+    } catch (e) {
+      console.warn('Error during live telemetry update:', e);
+    } finally {
       setLastUpdatedSecondsAgo(0);
       setIsRefreshing(false);
-    }, 400);
+    }
+  };
+
+  const handleQueryCustomStopFromApi = async (code: string) => {
+    const cleanCode = code.trim();
+    if (!/^\d{5}$/.test(cleanCode)) return;
+
+    setIsQueryingLtaApi(true);
+    try {
+      const result = await fetchLiveBusArrival(cleanCode);
+      if (result && result.services && result.services.length > 0) {
+        const existing = busStops.find((s) => s.code === cleanCode);
+        if (!existing) {
+          const newStop: BusStop = {
+            id: `B${cleanCode}`,
+            code: cleanCode,
+            name: `Bus Stop ${cleanCode}`,
+            road: 'Public Road',
+            coordinates: { lat: 1.2858, lng: 103.8436 },
+            services: result.services,
+          };
+          setBusStops((prev) => [newStop, ...prev]);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to query custom stop:', e);
+    } finally {
+      setIsQueryingLtaApi(false);
+    }
   };
 
   const handleToggleBookmark = (stopId: string) => {
@@ -317,19 +375,30 @@ export default function App() {
                   </h3>
                   <p className="text-xs text-[#50434E] max-w-sm mx-auto">
                     No results for &quot;{searchQuery}&quot;. Try searching with a 5-digit postal stop code like{' '}
-                    <span className="font-service font-semibold text-[#520059]">01112</span>,{' '}
-                    <span className="font-service font-semibold text-[#520059]">08057</span>, or service{' '}
+                    <span className="font-service font-semibold text-[#520059]">04121</span>,{' '}
+                    <span className="font-service font-semibold text-[#520059]">01112</span>, or service{' '}
                     <span className="font-service font-semibold text-[#520059]">147</span>.
                   </p>
-                  <button
-                    onClick={() => {
-                      setSearchQuery('');
-                      setStopFilter('all');
-                    }}
-                    className="mt-2 px-4 py-1.5 bg-[#520059] text-white text-xs font-semibold rounded-lg hover:bg-[#6E1D74] transition-colors"
-                  >
-                    Reset Filters
-                  </button>
+                  <div className="flex items-center justify-center gap-2 pt-1 flex-wrap">
+                    {/^\d{5}$/.test(searchQuery.trim()) && (
+                      <button
+                        onClick={() => handleQueryCustomStopFromApi(searchQuery)}
+                        disabled={isQueryingLtaApi}
+                        className="px-4 py-1.5 bg-[#6E1D74] text-white text-xs font-semibold rounded-lg hover:bg-[#520059] transition-colors flex items-center gap-1.5"
+                      >
+                        {isQueryingLtaApi ? 'Querying LTA API...' : `Fetch Stop ${searchQuery} from LTA API`}
+                      </button>
+                    )}
+                    <button
+                      onClick={() => {
+                        setSearchQuery('');
+                        setStopFilter('all');
+                      }}
+                      className="px-4 py-1.5 bg-white border border-[#E5E5EB] text-[#50434E] hover:text-[#171C24] text-xs font-semibold rounded-lg transition-colors"
+                    >
+                      Reset Filters
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -349,6 +418,8 @@ export default function App() {
         isRefreshing={isRefreshing}
         onRefresh={triggerLiveTelemetryUpdate}
         lastUpdatedSecondsAgo={lastUpdatedSecondsAgo}
+        onOpenDiagnostics={() => setIsDiagnosticsOpen(true)}
+        isLtaKeyConfigured={isLtaKeyConfigured}
       />
 
       {/* Main Body */}
@@ -454,6 +525,11 @@ export default function App() {
             setSearchQuery(stopCode);
           }}
         />
+      )}
+
+      {/* API Diagnostics & LTA Integration Modal */}
+      {isDiagnosticsOpen && (
+        <ApiDiagnosticsModal onClose={() => setIsDiagnosticsOpen(false)} />
       )}
     </div>
   );
